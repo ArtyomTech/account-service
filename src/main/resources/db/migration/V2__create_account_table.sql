@@ -1,0 +1,6 @@
+CREATE TABLE account (
+    account_id BIGSERIAL PRIMARY KEY,
+    customer_id BIGINT NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

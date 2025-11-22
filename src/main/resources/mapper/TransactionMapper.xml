@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuum.account.service.mapper.TransactionMapper">
+
+  <insert id="insertTransaction" useGeneratedKeys="true" keyProperty="transactionId" keyColumn="transaction_id">
+    INSERT INTO transaction (account_id, amount, currency, direction, description, balance_after_transaction)
+    VALUES (#{accountId}, #{amount}, #{currency}::currency_enum, #{direction}::transaction_direction_enum, 
+            #{description}, #{balanceAfterTransaction})
+  </insert>
+
+  <resultMap id="TransactionResult" type="com.tuum.account.service.domain.Transaction">
+    <id property="transactionId" column="transaction_id"/>
+    <result property="accountId" column="account_id"/>
+    <result property="amount" column="amount"/>
+    <result property="currency" column="currency"/>
+    <result property="direction" column="direction"/>
+    <result property="description" column="description"/>
+    <result property="balanceAfterTransaction" column="balance_after_transaction"/>
+    <result property="createdAt" column="created_at"/>
+  </resultMap>
+
+  <select id="findByAccountId" resultMap="TransactionResult">
+    SELECT transaction_id, account_id, amount, currency, direction, description, 
+           balance_after_transaction, created_at
+    FROM transaction
+    WHERE account_id = #{accountId}
+    ORDER BY created_at DESC
+  </select>
+
+</mapper>
